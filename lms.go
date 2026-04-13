@@ -7,8 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// ===== STRUCT =====
-
 type SinhVien struct {
 	Masv string `json:"masv"`
 	Ten  string `json:"ten"`
@@ -43,8 +41,6 @@ type LMS struct {
 
 var data LMS
 
-// ===== FILE =====
-
 func save() {
 	file, _ := json.MarshalIndent(data, "", "  ")
 	os.WriteFile("data.json", file, 0644)
@@ -56,8 +52,6 @@ func load() {
 		json.Unmarshal(file, &data)
 	}
 }
-
-// ===== GPA =====
 
 func tinhGPA(masv string) float64 {
 	var tong float64
@@ -80,13 +74,15 @@ func tinhGPA(masv string) float64 {
 	return tong / float64(tin)
 }
 
-// ===== MAIN =====
-
 func main() {
 	load()
 	r := gin.Default()
 
-	// ===== SINH VIEN =====
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"msg": "LMS API is running",
+		})
+	})
 
 	r.POST("/sinhvien", func(c *gin.Context) {
 		var sv SinhVien
@@ -117,8 +113,6 @@ func main() {
 		c.JSON(404, gin.H{"error": "not found"})
 	})
 
-	// ===== MON =====
-
 	r.POST("/mon", func(c *gin.Context) {
 		var m MonHoc
 		c.BindJSON(&m)
@@ -132,8 +126,6 @@ func main() {
 	r.GET("/mon", func(c *gin.Context) {
 		c.JSON(200, data.MonHocs)
 	})
-
-	// ===== DANG KY =====
 
 	r.POST("/dangky", func(c *gin.Context) {
 		var dk DangKy
@@ -177,14 +169,10 @@ func main() {
 		c.JSON(404, gin.H{"error": "not found"})
 	})
 
-	// ===== GPA =====
-
 	r.GET("/gpa/:masv", func(c *gin.Context) {
 		id := c.Param("masv")
 		c.JSON(200, gin.H{"gpa": tinhGPA(id)})
 	})
-
-	// ===== DIEM DANH =====
 
 	r.POST("/diemdanh", func(c *gin.Context) {
 		var dd DiemDanh
