@@ -74,6 +74,8 @@ func tinhGPA(masv string) float64 {
 	return tong / float64(tin)
 }
 
+var lms LMS
+
 func main() {
 	load()
 	r := gin.Default()
