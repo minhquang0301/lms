@@ -113,6 +113,12 @@ func main() {
 		c.JSON(404, gin.H{"error": "not found"})
 	})
 
+	r.DELETE("/reset", func(c *gin.Context) {
+		lms.SinhViens = []SinhVien{}
+		save()
+		c.JSON(200, gin.H{"msg": "da reset"})
+	})
+
 	r.POST("/mon", func(c *gin.Context) {
 		var m MonHoc
 		c.BindJSON(&m)
