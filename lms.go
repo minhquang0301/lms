@@ -118,64 +118,63 @@ func main() {
 
 <h1>🎓 LMS Management</h1>
 
-<!-- ===== SINH VIÊN ===== -->
-<h2>👨‍🎓 Sinh viên</h2>
-<input id="sv_masv" placeholder="Mã SV">
-<input id="sv_ten" placeholder="Tên">
-<input id="sv_tuoi" placeholder="Tuổi">
-<button onclick="themSV()">Thêm</button>
+<!-- ===== Sinh Vien ===== -->
+<h2>Sinh Vien</h2>
+<input id="sv_masv" placeholder="Ma SV">
+<input id="sv_ten" placeholder="Ten">
+<input id="sv_tuoi" placeholder="Tuoi">
+<button onclick="themSV()">Them</button>
 <button onclick="loadSV()">Load</button>
 
 <table id="sv_table"></table>
 
-<!-- ===== MÔN HỌC ===== -->
-<h2>📘 Môn học</h2>
-<input id="mon_id" placeholder="Mã môn">
-<input id="mon_ten" placeholder="Tên">
-<input id="mon_tc" placeholder="Tín chỉ">
-<button onclick="themMon()">Thêm</button>
+<!-- ===== Mon hoc ===== -->
+<h2>Mon hoc</h2>
+<input id="mon_id" placeholder="Ma mon">
+<input id="mon_ten" placeholder="Ten mon">
+<input id="mon_tc" placeholder="Tin chi">
+<button onclick="themMon()">Them</button>
 <button onclick="loadMon()">Load</button>
 
 <table id="mon_table"></table>
 
-<!-- ===== ĐĂNG KÝ ===== -->
-<h2>📝 Đăng ký</h2>
-<input id="dk_masv" placeholder="Mã SV">
-<input id="dk_mamon" placeholder="Mã môn">
-<button onclick="dangKy()">Đăng ký</button>
+<!-- ===== Dang ky ===== -->
+<h2>Đăng ký</h2>
+<input id="dk_masv" placeholder="Ma SV">
+<input id="dk_mamon" placeholder="Ma môn">
+<button onclick="dangKy()">Dang Ky</button>
 
-<h3>Nhập điểm</h3>
-<input id="dk_masv2" placeholder="Mã SV">
-<input id="dk_mamon2" placeholder="Mã môn">
-<input id="dk_diem" placeholder="Điểm">
-<button onclick="nhapDiem()">Cập nhật</button>
+<h3>Nhap diem</h3>
+<input id="dk_masv2" placeholder="Ma SV">
+<input id="dk_mamon2" placeholder="Ma môn">
+<input id="dk_diem" placeholder="Điem">
+<button onclick="nhapDiem()">Cap nhat</button>
 
 <!-- ===== GPA ===== -->
-<h2>🎯 GPA</h2>
-<input id="gpa_id" placeholder="Mã SV">
+<h2>GPA</h2>
+<input id="gpa_id" placeholder="Ma SV">
 <button onclick="xemGPA()">Xem</button>
 <p id="gpa_result"></p>
 
 <!-- ===== ĐIỂM DANH ===== -->
-<h2>📅 Điểm danh</h2>
-<input id="dd_masv" placeholder="Mã SV">
-<input id="dd_mamon" placeholder="Mã môn">
-<input id="dd_buoi" placeholder="Buổi">
+<h2>Diem danh</h2>
+<input id="dd_masv" placeholder="Ma SV">
+<input id="dd_mamon" placeholder="Ma môn">
+<input id="dd_buoi" placeholder="Buoi">
 <select id="dd_comat">
-	<option value="true">Có mặt</option>
-	<option value="false">Vắng</option>
+	<option value="true">Co mat</option>
+	<option value="false">Vang</option>
 </select>
-<button onclick="themDD()">Thêm</button>
+<button onclick="themDD()">Them</button>
 
-<h3>Xem điểm danh theo môn</h3>
-<input id="dd_mamon_xem" placeholder="Mã môn">
+<h3>Xem diem danh theo mon</h3>
+<input id="dd_mamon_xem" placeholder="Ma môn">
 <button onclick="xemDD()">Xem</button>
 
 <table id="dd_table"></table>
 
 <script>
 
-// ===== SINH VIÊN =====
 function themSV() {
 	fetch('/sinhvien', {
 		method: 'POST',
@@ -192,7 +191,7 @@ function loadSV() {
 	fetch('/sinhvien')
 	.then(r => r.json())
 	.then(data => {
-		let html = "<tr><th>Mã</th><th>Tên</th><th>Tuổi</th><th>Xóa</th></tr>";
+		let html = "<tr><th>Ma</th><th>Ten</th><th>Tuoi</th><th>Xoa</th></tr>";
 		data.forEach(sv => {
 			html += "<tr><td>"+sv.masv+"</td><td>"+sv.ten+"</td><td>"+sv.tuoi+"</td>"
 			+ "<td><button onclick=\"xoaSV('"+sv.masv+"')\">X</button></td></tr>";
@@ -205,7 +204,6 @@ function xoaSV(id) {
 	fetch('/sinhvien/'+id, {method:'DELETE'}).then(loadSV);
 }
 
-// ===== MÔN =====
 function themMon() {
 	fetch('/mon', {
 		method:'POST',
@@ -222,7 +220,7 @@ function loadMon() {
 	fetch('/mon')
 	.then(r=>r.json())
 	.then(data=>{
-		let html="<tr><th>Mã</th><th>Tên</th><th>TC</th></tr>";
+		let html="<tr><th>Ma</th><th>Ten</th><th>TC</th></tr>";
 		data.forEach(m=>{
 			html+="<tr><td>"+m.mamon+"</td><td>"+m.ten+"</td><td>"+m.tinchi+"</td></tr>";
 		});
@@ -230,7 +228,6 @@ function loadMon() {
 	});
 }
 
-// ===== ĐĂNG KÝ =====
 function dangKy() {
 	fetch('/dangky', {
 		method:'POST',
@@ -254,7 +251,6 @@ function nhapDiem() {
 	});
 }
 
-// ===== GPA =====
 function xemGPA() {
 	fetch('/gpa/'+gpa_id.value)
 	.then(r=>r.json())
@@ -263,7 +259,6 @@ function xemGPA() {
 	});
 }
 
-// ===== ĐIỂM DANH =====
 function themDD() {
 	fetch('/diemdanh', {
 		method:'POST',
@@ -281,7 +276,7 @@ function xemDD() {
 	fetch('/diemdanh/'+dd_mamon_xem.value)
 	.then(r=>r.json())
 	.then(data=>{
-		let html="<tr><th>SV</th><th>Buổi</th><th>Có mặt</th></tr>";
+		let html="<tr><th>SV</th><th>Buoi</th><th>Co mat</th></tr>";
 		data.forEach(d=>{
 			html+="<tr><td>"+d.masv+"</td><td>"+d.buoi+"</td><td>"+d.comat+"</td></tr>";
 		});
