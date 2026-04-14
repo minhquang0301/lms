@@ -99,6 +99,203 @@ func main() {
 		})
 	})
 
+	r.GET("/ui", func(c *gin.Context) {
+		c.Header("Content-Type", "text/html")
+		c.String(200, `
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LMS Full UI</title>
+	<style>
+		body { font-family: Arial; padding: 20px; }
+		input, button { margin: 5px; padding: 5px; }
+		table { border-collapse: collapse; margin-top: 10px; }
+		td, th { border: 1px solid black; padding: 6px; }
+		h2 { margin-top: 30px; }
+	</style>
+</head>
+<body>
+
+<h1>🎓 LMS Management</h1>
+
+<!-- ===== SINH VIÊN ===== -->
+<h2>👨‍🎓 Sinh viên</h2>
+<input id="sv_masv" placeholder="Mã SV">
+<input id="sv_ten" placeholder="Tên">
+<input id="sv_tuoi" placeholder="Tuổi">
+<button onclick="themSV()">Thêm</button>
+<button onclick="loadSV()">Load</button>
+
+<table id="sv_table"></table>
+
+<!-- ===== MÔN HỌC ===== -->
+<h2>📘 Môn học</h2>
+<input id="mon_id" placeholder="Mã môn">
+<input id="mon_ten" placeholder="Tên">
+<input id="mon_tc" placeholder="Tín chỉ">
+<button onclick="themMon()">Thêm</button>
+<button onclick="loadMon()">Load</button>
+
+<table id="mon_table"></table>
+
+<!-- ===== ĐĂNG KÝ ===== -->
+<h2>📝 Đăng ký</h2>
+<input id="dk_masv" placeholder="Mã SV">
+<input id="dk_mamon" placeholder="Mã môn">
+<button onclick="dangKy()">Đăng ký</button>
+
+<h3>Nhập điểm</h3>
+<input id="dk_masv2" placeholder="Mã SV">
+<input id="dk_mamon2" placeholder="Mã môn">
+<input id="dk_diem" placeholder="Điểm">
+<button onclick="nhapDiem()">Cập nhật</button>
+
+<!-- ===== GPA ===== -->
+<h2>🎯 GPA</h2>
+<input id="gpa_id" placeholder="Mã SV">
+<button onclick="xemGPA()">Xem</button>
+<p id="gpa_result"></p>
+
+<!-- ===== ĐIỂM DANH ===== -->
+<h2>📅 Điểm danh</h2>
+<input id="dd_masv" placeholder="Mã SV">
+<input id="dd_mamon" placeholder="Mã môn">
+<input id="dd_buoi" placeholder="Buổi">
+<select id="dd_comat">
+	<option value="true">Có mặt</option>
+	<option value="false">Vắng</option>
+</select>
+<button onclick="themDD()">Thêm</button>
+
+<h3>Xem điểm danh theo môn</h3>
+<input id="dd_mamon_xem" placeholder="Mã môn">
+<button onclick="xemDD()">Xem</button>
+
+<table id="dd_table"></table>
+
+<script>
+
+// ===== SINH VIÊN =====
+function themSV() {
+	fetch('/sinhvien', {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			masv: sv_masv.value,
+			ten: sv_ten.value,
+			tuoi: parseInt(sv_tuoi.value)
+		})
+	}).then(loadSV);
+}
+
+function loadSV() {
+	fetch('/sinhvien')
+	.then(r => r.json())
+	.then(data => {
+		let html = "<tr><th>Mã</th><th>Tên</th><th>Tuổi</th><th>Xóa</th></tr>";
+		data.forEach(sv => {
+			html += "<tr><td>"+sv.masv+"</td><td>"+sv.ten+"</td><td>"+sv.tuoi+"</td>"
+			+ "<td><button onclick=\"xoaSV('"+sv.masv+"')\">X</button></td></tr>";
+		});
+		sv_table.innerHTML = html;
+	});
+}
+
+function xoaSV(id) {
+	fetch('/sinhvien/'+id, {method:'DELETE'}).then(loadSV);
+}
+
+// ===== MÔN =====
+function themMon() {
+	fetch('/mon', {
+		method:'POST',
+		headers:{'Content-Type':'application/json'},
+		body:JSON.stringify({
+			mamon:mon_id.value,
+			ten:mon_ten.value,
+			tinchi:parseInt(mon_tc.value)
+		})
+	}).then(loadMon);
+}
+
+function loadMon() {
+	fetch('/mon')
+	.then(r=>r.json())
+	.then(data=>{
+		let html="<tr><th>Mã</th><th>Tên</th><th>TC</th></tr>";
+		data.forEach(m=>{
+			html+="<tr><td>"+m.mamon+"</td><td>"+m.ten+"</td><td>"+m.tinchi+"</td></tr>";
+		});
+		mon_table.innerHTML=html;
+	});
+}
+
+// ===== ĐĂNG KÝ =====
+function dangKy() {
+	fetch('/dangky', {
+		method:'POST',
+		headers:{'Content-Type':'application/json'},
+		body:JSON.stringify({
+			masv:dk_masv.value,
+			mamon:dk_mamon.value
+		})
+	});
+}
+
+function nhapDiem() {
+	fetch('/dangky', {
+		method:'PUT',
+		headers:{'Content-Type':'application/json'},
+		body:JSON.stringify({
+			masv:dk_masv2.value,
+			mamon:dk_mamon2.value,
+			diem:parseFloat(dk_diem.value)
+		})
+	});
+}
+
+// ===== GPA =====
+function xemGPA() {
+	fetch('/gpa/'+gpa_id.value)
+	.then(r=>r.json())
+	.then(d=>{
+		gpa_result.innerText="GPA: "+d.gpa;
+	});
+}
+
+// ===== ĐIỂM DANH =====
+function themDD() {
+	fetch('/diemdanh', {
+		method:'POST',
+		headers:{'Content-Type':'application/json'},
+		body:JSON.stringify({
+			masv:dd_masv.value,
+			mamon:dd_mamon.value,
+			buoi:parseInt(dd_buoi.value),
+			comat:dd_comat.value==="true"
+		})
+	});
+}
+
+function xemDD() {
+	fetch('/diemdanh/'+dd_mamon_xem.value)
+	.then(r=>r.json())
+	.then(data=>{
+		let html="<tr><th>SV</th><th>Buổi</th><th>Có mặt</th></tr>";
+		data.forEach(d=>{
+			html+="<tr><td>"+d.masv+"</td><td>"+d.buoi+"</td><td>"+d.comat+"</td></tr>";
+		});
+		dd_table.innerHTML=html;
+	});
+}
+
+</script>
+
+</body>
+</html>
+`)
+	})
+
 	r.POST("/sinhvien", func(c *gin.Context) {
 		var sv SinhVien
 		c.BindJSON(&sv)
@@ -228,5 +425,10 @@ func main() {
 		c.JSON(404, gin.H{"error": "not found"})
 	})
 
-	r.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	r.Run(":" + port)
 }
