@@ -184,7 +184,11 @@ function themSV() {
 			ten: sv_ten.value,
 			tuoi: parseInt(sv_tuoi.value)
 		})
-	}).then(loadSV);
+	})
+	.then(() => {
+		alert("Them sinh vien thanh cong!");
+		loadSV();
+	});
 }
 
 function loadSV() {
@@ -201,7 +205,11 @@ function loadSV() {
 }
 
 function xoaSV(id) {
-	fetch('/sinhvien/'+id, {method:'DELETE'}).then(loadSV);
+	fetch('/sinhvien/'+id, {method:'DELETE'})
+	.then(() => {
+		alert("Da xoa!");
+		loadSV();
+	});
 }
 
 function themMon() {
@@ -213,7 +221,11 @@ function themMon() {
 			ten:mon_ten.value,
 			tinchi:parseInt(mon_tc.value)
 		})
-	}).then(loadMon);
+	})
+	.then(() => {
+		alert("Them mon thanh cong!");
+		loadMon();
+	});
 }
 
 function loadMon() {
@@ -236,6 +248,10 @@ function dangKy() {
 			masv:dk_masv.value,
 			mamon:dk_mamon.value
 		})
+	})
+	.then(res => res.json())
+	.then(() => {
+		alert("Dang ky thanh cong!");
 	});
 }
 
@@ -248,6 +264,10 @@ function nhapDiem() {
 			mamon:dk_mamon2.value,
 			diem:parseFloat(dk_diem.value)
 		})
+	})
+	.then(res => res.json())
+	.then(() => {
+		alert("Cap nhat diem thanh cong!");
 	});
 }
 
@@ -269,6 +289,9 @@ function themDD() {
 			buoi:parseInt(dd_buoi.value),
 			comat:dd_comat.value==="true"
 		})
+	})
+	.then(() => {
+		alert("Diem danh thanh cong!");
 	});
 }
 
