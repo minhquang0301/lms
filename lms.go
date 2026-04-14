@@ -116,7 +116,7 @@ func main() {
 </head>
 <body>
 
-<h1>🎓 LMS Management</h1>
+<h1>LMS Management</h1>
 
 <!-- ===== Sinh Vien ===== -->
 <h2>Sinh Vien</h2>
@@ -139,15 +139,15 @@ func main() {
 <table id="mon_table"></table>
 
 <!-- ===== Dang ky ===== -->
-<h2>Đăng ký</h2>
+<h2>Dang Ky</h2>
 <input id="dk_masv" placeholder="Ma SV">
-<input id="dk_mamon" placeholder="Ma môn">
+<input id="dk_mamon" placeholder="Ma mon">
 <button onclick="dangKy()">Dang Ky</button>
 
 <h3>Nhap diem</h3>
 <input id="dk_masv2" placeholder="Ma SV">
-<input id="dk_mamon2" placeholder="Ma môn">
-<input id="dk_diem" placeholder="Điem">
+<input id="dk_mamon2" placeholder="Ma mon">
+<input id="dk_diem" placeholder="Diem">
 <button onclick="nhapDiem()">Cap nhat</button>
 
 <!-- ===== GPA ===== -->
@@ -156,7 +156,7 @@ func main() {
 <button onclick="xemGPA()">Xem</button>
 <p id="gpa_result"></p>
 
-<!-- ===== ĐIỂM DANH ===== -->
+<!-- ===== DIEM DANH ===== -->
 <h2>Diem danh</h2>
 <input id="dd_masv" placeholder="Ma SV">
 <input id="dd_mamon" placeholder="Ma môn">
