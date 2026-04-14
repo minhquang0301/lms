@@ -81,6 +81,21 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"msg": "LMS API is running",
+			"endpoints": gin.H{
+				"GET /sinhvien":        "Xem danh sach sinh vien",
+				"POST /sinhvien":       "Them sinh vien",
+				"DELETE /sinhvien/:id": "Xoa sinh vien",
+				"GET /mon":             "Xem mon hoc",
+				"POST /mon":            "Them mon hoc",
+				"POST /dangky":         "Dang ky mon hoc",
+				"DELETE /dangky":       "Huy dang ky mon hoc",
+				"PUT /dangky":          "Xem mon da dang ky",
+				"GET /gpa/:masv":       "Xem GPA",
+				"POST /diemdanh":       "Điem danh",
+				"GET /diemdanh/:mamon": "Xem danh sach diem danh theo mon",
+				"DELETE /diemdanh":     "Xoa diem danh",
+			},
+			"how_to_test": "Su dung Postman hoac curl de kiem tra API",
 		})
 	})
 
