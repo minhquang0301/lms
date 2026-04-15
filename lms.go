@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"math"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -74,7 +75,7 @@ func tinhGPA(masv string) float64 {
 	if tin == 0 {
 		return 0
 	}
-	return tong / float64(tin)
+	return math.Round((tong/float64(tin))*100) / 100
 }
 
 func diemHe4(d float64) float64 {
