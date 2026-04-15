@@ -190,7 +190,7 @@ func main() {
 <button onclick="themDD()">Them</button>
 
 <h3>Xem diem danh theo mon</h3>
-<input id="dd_mamon_xem" placeholder="Ma môn">
+<input id="dd_mamon_xem" placeholder="Ma mon">
 <button onclick="xemDD()">Xem</button>
 
 <table id="dd_table"></table>
