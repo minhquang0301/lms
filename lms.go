@@ -61,7 +61,10 @@ func tinhGPA(masv string) float64 {
 		if dk.Masv == masv {
 			for _, m := range data.MonHocs {
 				if m.Mamon == dk.Mamon {
-					tong += dk.Diem * float64(m.Tinchi)
+
+					diem4 := diemHe4(dk.Diem)
+
+					tong += diem4 * float64(m.Tinchi)
 					tin += m.Tinchi
 				}
 			}
@@ -72,6 +75,25 @@ func tinhGPA(masv string) float64 {
 		return 0
 	}
 	return tong / float64(tin)
+}
+
+func diemHe4(d float64) float64 {
+	if d >= 8.5 {
+		return 4.0
+	} else if d >= 8.0 {
+		return 3.5
+	} else if d >= 7.0 {
+		return 3.0
+	} else if d >= 6.5 {
+		return 2.5
+	} else if d >= 5.5 {
+		return 2.0
+	} else if d >= 5.0 {
+		return 1.5
+	} else if d >= 4.0 {
+		return 1.0
+	}
+	return 0
 }
 
 func main() {
