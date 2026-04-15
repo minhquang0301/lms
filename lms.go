@@ -166,6 +166,9 @@ func main() {
 <input id="dk_masv" placeholder="Ma SV">
 <input id="dk_mamon" placeholder="Ma mon">
 <button onclick="dangKy()">Dang Ky</button>
+<h3>Danh sach dang ky</h3>
+<button onclick="loadDK()">Load</button>
+<table id="dk_table"></table>
 
 <h3>Nhap diem</h3>
 <input id="dk_masv2" placeholder="Ma SV">
@@ -275,7 +278,8 @@ function dangKy() {
 	.then(res => res.json())
 	.then(() => {
 		alert("Dang ky thanh cong!");
-	});
+		loadDK();
+ 	});
 }
 
 function nhapDiem() {
@@ -291,6 +295,7 @@ function nhapDiem() {
 	.then(res => res.json())
 	.then(() => {
 		alert("Cap nhat diem thanh cong!");
+        loadDK();
 	});
 }
 
@@ -327,6 +332,22 @@ function xemDD() {
 			html+="<tr><td>"+d.masv+"</td><td>"+d.buoi+"</td><td>"+d.comat+"</td></tr>";
 		});
 		dd_table.innerHTML=html;
+	});
+}
+
+function loadDK() {
+	fetch('/dangky')
+	.then(r => r.json())
+	.then(data => {
+		let html = "<tr><th>Ma SV</th><th>Ma mon</th><th>Diem</th></tr>";
+		data.forEach(dk => {
+			html += "<tr>"
+				+ "<td>" + dk.masv + "</td>"
+				+ "<td>" + dk.mamon + "</td>"
+				+ "<td>" + (dk.diem || "") + "</td>"
+				+ "</tr>";
+		});
+		dk_table.innerHTML = html;
 	});
 }
 
@@ -420,6 +441,10 @@ function xemDD() {
 		}
 
 		c.JSON(404, gin.H{"error": "not found"})
+	})
+
+	r.GET("/dangky", func(c *gin.Context) {
+		c.JSON(200, data.DangKys)
 	})
 
 	r.GET("/gpa/:masv", func(c *gin.Context) {
